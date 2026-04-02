@@ -1,6 +1,6 @@
 When working on the unity project:
 
-Pull from main before making changes
+Git Pull before making changes
 
 Create prefabs in your own scene while working on things and pull them into the main scene down the line for final version/testing
 
