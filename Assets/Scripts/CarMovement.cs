@@ -3,8 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class CarMovement : MonoBehaviour
 {
-    public float acceleration = 30f;
-    public float maxSpeed = 20f;
+    public float acceleration = 200f;
+    public float maxSpeed = 500f;
     public float turnSpeed = 120f;
     public float dragOnGround = 4f;
 
