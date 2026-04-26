@@ -3,52 +3,46 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class CarMovement : MonoBehaviour
 {
-    public float maxSpeed = 15f;
     public float acceleration = 30f;
-    public float deceleration = 40f;
-    public float turnSpeed = 100f;
+    public float maxSpeed = 20f;
+    public float turnSpeed = 120f;
+    public float dragOnGround = 4f;
 
     private Rigidbody rb;
-    private float moveInput;
-    private float turnInput;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-
-        // Helps prevent tipping and reduces jitter
-        rb.interpolation = RigidbodyInterpolation.Interpolate;
-        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-    }
-
-    void Update()
-    {
-        moveInput = Input.GetAxis("Vertical");   // W/S
-        turnInput = Input.GetAxis("Horizontal"); // A/D
+        rb.centerOfMass = new Vector3(0, -0.5f, 0); // helps stability
     }
 
     void FixedUpdate()
     {
-        // Current forward speed
-        float forwardSpeed = Vector3.Dot(rb.linearVelocity, transform.forward);
+        float moveInput = Input.GetAxis("Vertical");   // W/S
+        float turnInput = Input.GetAxis("Horizontal"); // A/D
 
-        // Apply acceleration or deceleration
-        float targetSpeed = moveInput * maxSpeed;
-        float speedDiff = targetSpeed - forwardSpeed;
-
-        float accelRate = (Mathf.Abs(targetSpeed) > 0.1f) ? acceleration : deceleration;
-
-        float movement = speedDiff * accelRate * Time.fixedDeltaTime;
-
-        // Apply force forward
-        rb.AddForce(transform.forward * movement, ForceMode.Acceleration);
+        // Forward movement
+        if (rb.linearVelocity.magnitude < maxSpeed)
+        {
+            rb.AddForce(transform.forward * moveInput * acceleration, ForceMode.Acceleration);
+        }
 
         // Turning (only when moving a bit)
-        if (Mathf.Abs(forwardSpeed) > 0.5f)
+        if (rb.linearVelocity.magnitude > 0.5f)
         {
             float turn = turnInput * turnSpeed * Time.fixedDeltaTime;
             Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
             rb.MoveRotation(rb.rotation * turnRotation);
+        }
+
+        // Extra drag so it doesn't feel floaty
+        if (moveInput == 0)
+        {
+            rb.linearDamping = 8f; // stronger braking
+        }
+        else
+        {
+        rb.linearDamping = dragOnGround;
         }
     }
 }

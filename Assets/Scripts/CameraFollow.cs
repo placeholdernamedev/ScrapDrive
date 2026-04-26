@@ -2,25 +2,59 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
+    [Header("Target")]
     public Transform target;
-    public Vector3 offset = new Vector3(0f, 5f, -8f);
-    public float smoothTime = 0.2f; // lower = snappier
 
-    private Vector3 velocity = Vector3.zero;
+    [Header("Position")]
+    public float distance = 7f;
+    public float height = 3f;
+    public float positionSmoothTime = 0.1f;
+
+    [Header("Rotation")]
+    public float lookAhead = 3f;
+
+    private Vector3 positionVelocity;
 
     void LateUpdate()
     {
         if (target == null) return;
 
-        Vector3 desiredPosition = target.position + target.TransformDirection(offset);
+        FollowPosition();
+        FollowRotation();
+    }
+
+    void FollowPosition()
+    {
+        // Get movement direction (prevents reverse camera issues)
+        Vector3 moveDir = target.forward;
+
+        Vector3 desiredPosition =
+            target.position
+            - moveDir * distance
+            + Vector3.up * height;
 
         transform.position = Vector3.SmoothDamp(
             transform.position,
             desiredPosition,
-            ref velocity,
-            smoothTime
+            ref positionVelocity,
+            positionSmoothTime
+        );
+    }
+
+    void FollowRotation()
+    {
+        Vector3 lookTarget = target.position + target.forward * lookAhead;
+
+        Quaternion targetRotation = Quaternion.LookRotation(
+            lookTarget - transform.position
         );
 
-        transform.LookAt(target);
+        transform.rotation = targetRotation; // instant rotation (snappy)
+    }
+
+    // Call this when entering/exiting car
+    public void SetTarget(Transform newTarget)
+    {
+        target = newTarget;
     }
 }
