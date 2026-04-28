@@ -845,6 +845,7 @@ GameObject:
   - component: {fileID: 1114376064}
   - component: {fileID: 1114376070}
   - component: {fileID: 1114376069}
+  - component: {fileID: 1114376071}
   m_Layer: 0
   m_Name: Car
   m_TagString: Untagged
@@ -998,6 +999,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4, y: 2, z: 6}
   m_Center: {x: 0, y: 1, z: 1}
+--- !u!114 &1114376071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114376063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd2d3da09019a2841ad5d971a1a34cf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  maxHealth: 200
 --- !u!1 &1190733907
 GameObject:
   m_ObjectHideFlags: 0
@@ -1518,6 +1532,7 @@ GameObject:
   - component: {fileID: 1988339398}
   - component: {fileID: 1988339403}
   - component: {fileID: 1988339402}
+  - component: {fileID: 1988339404}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1635,7 +1650,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   moveSpeed: 10
   gravity: -9.81
-  rotationSpeed: 2
+  rotationSpeed: 1
 --- !u!143 &1988339403
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1661,6 +1676,19 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1988339404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1988339397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea3aa5ca5f1a9da42a2bea4e45c92207, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  maxHealth: 100
 --- !u!1 &2038007610
 GameObject:
   m_ObjectHideFlags: 0
