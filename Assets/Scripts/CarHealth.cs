@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CarHealth : MonoBehaviour, IDamageable
+public class CarHealth : MonoBehaviour, IDamageable, IHealable
 {
     public float maxHealth = 200f;
     [SerializeField] private float iFrameDuration = 1f; // in seconds
@@ -28,6 +28,13 @@ public class CarHealth : MonoBehaviour, IDamageable
         }
 
         StartCoroutine(IFrameRoutine()); // start I frames
+    }
+
+    public void Heal(float amount)
+    {
+        if (!isDestroyed) return;
+
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0f, maxHealth);
     }
 
     private System.Collections.IEnumerator IFrameRoutine()

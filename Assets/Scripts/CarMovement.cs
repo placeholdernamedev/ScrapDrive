@@ -3,15 +3,49 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class CarMovement : MonoBehaviour
 {
-    public float acceleration = 200f;
-    public float maxSpeed = 500f;
-    public float turnSpeed = 120f;
-    public float dragOnGround = 4f;
+    // Fueled numbers
+    public float Facceleration = 200f;
+    public float FmaxSpeed = 500f;
+    public float FturnSpeed = 120f;
+    public float FdragOnGround = 4f;
 
+    // no fuel numbers
+    public float NFacceleration = 35f;
+    public float NFmaxSpeed = 85f;
+    public float NFturnSpeed = 50f;
+    public float NFdragOnGround = 1f;
+    [SerializeField] private float acceleration;
+    [SerializeField] private float maxSpeed;
+    [SerializeField] private float turnSpeed;
+    [SerializeField] private float dragOnGround;
     private Rigidbody rb;
+
+    // reference for fuel system for checking for fuel
+    public FuelSystem fuelSystem;
+
+    public void setFueled(bool IsFueled)
+    {
+        if (IsFueled)
+        {
+            acceleration = Facceleration;
+            maxSpeed = FmaxSpeed;
+            turnSpeed = FturnSpeed;
+            dragOnGround = FdragOnGround;
+        }
+        else
+        {
+            acceleration = NFacceleration;
+            maxSpeed = NFmaxSpeed;
+            turnSpeed = NFturnSpeed;
+            dragOnGround = NFdragOnGround;
+        }
+    }
 
     void Start()
     {
+        // car starts fueled, so stats start fueled as well.
+        setFueled(true);
+
         rb = GetComponent<Rigidbody>();
         rb.centerOfMass = new Vector3(0, -0.5f, 0); // helps stability
     }

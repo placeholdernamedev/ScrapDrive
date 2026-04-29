@@ -22,8 +22,6 @@ public class PlayerHealthUI : MonoBehaviour
 
         float percent = health.currentHealth / health.maxHealth;
 
-        Debug.Log(health.currentHealth + " / " + health.maxHealth);
-
         fillBar.sizeDelta = new Vector2(fullWidth * percent, fillBar.sizeDelta.y);
 
         healthText.text = "Player Health: " + Mathf.RoundToInt(health.currentHealth) + " / " + health.maxHealth;

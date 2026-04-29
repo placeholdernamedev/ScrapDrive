@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour, IDamageable
+public class PlayerHealth : MonoBehaviour, IDamageable, IHealable
 {
     public float maxHealth = 100f;
     [SerializeField] private float iFrameDuration = 1f;
