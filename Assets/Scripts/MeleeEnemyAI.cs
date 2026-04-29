@@ -1,7 +1,3 @@
-using System.Collections.Specialized;
-using System.Diagnostics;
-using System.Runtime.Remoting.Channels;
-using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -20,7 +16,7 @@ public class MeleeEnemyAI : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        agent - GetComponent<NavMeshAgent>();
+        agent = GetComponent<NavMeshAgent>();
 
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
 
@@ -39,11 +35,11 @@ public class MeleeEnemyAI : MonoBehaviour
     {
         if (player == null) return;
 
-        float distanceToPlayer = Vector3.Distance(CryptoAPITransform.position, player.posiotion);
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
         if (distanceToPlayer < attackRange)
         {
-            attackCoolDown();
+            Attack();
         }
         else if (distanceToPlayer < detectionRange)
         {
@@ -57,7 +53,7 @@ public class MeleeEnemyAI : MonoBehaviour
 
     void Attack()
     {
-        agent.IsStopped = true;
+        agent.isStopped = true;
         FacePlayer();
 
         if (Time.time >= lastAttackTime + attackCoolDown)
@@ -80,7 +76,7 @@ public class MeleeEnemyAI : MonoBehaviour
 
     void FacePlayer()
     {
-        Vector3 direction = player.postion - transform.position;
+        Vector3 direction = player.position - transform.position;
         direction.y = 0; // Keep the enemy upright
 
         if (direction != Vector3.zero) 
