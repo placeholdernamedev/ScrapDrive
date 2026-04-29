@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
-    [SerializeField] private float maxHealth = 100f;
-    private float currentHealth;
+    public float maxHealth = 100f;
+    [SerializeField] private float iFrameDuration = 1f;
+
+    public float currentHealth;
+    private bool isInvincible = false; // starts false
 
     public bool IsAlive => currentHealth > 0f;
 
@@ -14,7 +17,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public void TakeDamage(float amount)
     {
-        if (!IsAlive) return;
+        if (!IsAlive || isInvincible) return; // check if dead or invincible
 
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
@@ -22,7 +25,19 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (currentHealth <= 0f)
         {
             Die();
+            return;
         }
+
+        StartCoroutine(IFrameRoutine()); // I Frames
+    }
+
+    private System.Collections.IEnumerator IFrameRoutine()
+    {
+        isInvincible = true;
+
+        yield return new WaitForSeconds(iFrameDuration);
+
+        isInvincible = false;
     }
 
     public void Heal(float amount)
@@ -35,6 +50,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private void Die()
     {
         Debug.Log("Player Died");
+
         var controller = GetComponent<PlayerMovement>();
         var vehicleInteraction = GetComponent<VehicleInteraction>();
 
@@ -42,6 +58,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         {
             controller.enabled = false;
         }
+
         if (vehicleInteraction != null)
         {
             vehicleInteraction.enabled = false;

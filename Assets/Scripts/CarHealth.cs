@@ -2,10 +2,12 @@ using UnityEngine;
 
 public class CarHealth : MonoBehaviour, IDamageable
 {
-    [SerializeField] private float maxHealth = 200f;
+    public float maxHealth = 200f;
+    [SerializeField] private float iFrameDuration = 1f; // in seconds
 
-    private float currentHealth;
+    public float currentHealth;
     private bool isDestroyed = false;
+    private bool isInvincible = false;
 
     private void Awake()
     {
@@ -14,7 +16,7 @@ public class CarHealth : MonoBehaviour, IDamageable
 
     public void TakeDamage(float amount)
     {
-        if (isDestroyed) return;
+        if (isDestroyed || isInvincible) return; // checks if invincible or dead
 
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
@@ -22,7 +24,19 @@ public class CarHealth : MonoBehaviour, IDamageable
         if (currentHealth <= 0f)
         {
             DestroyCar();
+            return;
         }
+
+        StartCoroutine(IFrameRoutine()); // start I frames
+    }
+
+    private System.Collections.IEnumerator IFrameRoutine()
+    {
+        isInvincible = true;
+
+        yield return new WaitForSeconds(iFrameDuration);
+
+        isInvincible = false;
     }
 
     private void DestroyCar()
@@ -43,7 +57,7 @@ public class CarHealth : MonoBehaviour, IDamageable
             vehicleInteraction.enabled = false;
         }
 
-        Destroy(gameObject, 3f); // delay of 3 seconds before destruction.
+        Destroy(gameObject, 3f);
     }
 
     public float GetHealthPercent()
