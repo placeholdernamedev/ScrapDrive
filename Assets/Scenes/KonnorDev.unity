@@ -358,6 +358,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3da4c8a5ba3be44d9c7de09c39326e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CarMovement
+--- !u!114 &691245163 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5263038987649382947, guid: 0807e5b2399c0df4d8e3a4d3c9dbefc2, type: 3}
+  m_PrefabInstance: {fileID: 2214310796605587481}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 337af986d133a3944a8c665f090760a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VehicleInteraction
 --- !u!1 &885997393
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,8 +552,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   currentTarget: {fileID: 885997394}
   offset: {x: 0, y: 8, z: -14}
-  followSpeed: 10
-  rotationSpeed: 12
+  mouseSensitivity: 4
+  minPitch: -35
+  maxPitch: 65
 --- !u!1 &1190733907 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8722325939435662646, guid: a23d004515b603a45bdfd8912e40e6e9, type: 3}
@@ -559,6 +571,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!224 &1191198502 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3055788339924185001, guid: a23d004515b603a45bdfd8912e40e6e9, type: 3}
+  m_PrefabInstance: {fileID: 7118389198047664348}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1326252268 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7131027957720253206, guid: a23d004515b603a45bdfd8912e40e6e9, type: 3}
@@ -933,6 +950,7 @@ MonoBehaviour:
   moveSpeed: 10
   gravity: -9.81
   rotationSpeed: 1
+  cameraTransform: {fileID: 0}
 --- !u!143 &1988339403
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1110,6 +1128,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3945675975358996038, guid: 0807e5b2399c0df4d8e3a4d3c9dbefc2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945675975358996038, guid: 0807e5b2399c0df4d8e3a4d3c9dbefc2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4801064347217486611, guid: 0807e5b2399c0df4d8e3a4d3c9dbefc2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1268,10 +1294,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 1193741575919579392, guid: a23d004515b603a45bdfd8912e40e6e9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 540
+      objectReference: {fileID: 0}
+    - target: {fileID: 3055788339924185001, guid: a23d004515b603a45bdfd8912e40e6e9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 580
+      objectReference: {fileID: 0}
+    - target: {fileID: 4235558456646595609, guid: a23d004515b603a45bdfd8912e40e6e9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 565
+      objectReference: {fileID: 0}
     - target: {fileID: 4342472426045302638, guid: a23d004515b603a45bdfd8912e40e6e9, type: 3}
       propertyPath: health
       value: 
       objectReference: {fileID: 691245156}
+    - target: {fileID: 4342472426045302638, guid: a23d004515b603a45bdfd8912e40e6e9, type: 3}
+      propertyPath: Background
+      value: 
+      objectReference: {fileID: 1191198502}
+    - target: {fileID: 4342472426045302638, guid: a23d004515b603a45bdfd8912e40e6e9, type: 3}
+      propertyPath: vehicleInteraction
+      value: 
+      objectReference: {fileID: 691245163}
+    - target: {fileID: 5719454398169150484, guid: a23d004515b603a45bdfd8912e40e6e9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 580
+      objectReference: {fileID: 0}
     - target: {fileID: 6111577898981405555, guid: a23d004515b603a45bdfd8912e40e6e9, type: 3}
       propertyPath: fuelSystem
       value: 
@@ -1356,10 +1406,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7291691553420981588, guid: a23d004515b603a45bdfd8912e40e6e9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 532
+      objectReference: {fileID: 0}
     - target: {fileID: 7363312649507281976, guid: a23d004515b603a45bdfd8912e40e6e9, type: 3}
       propertyPath: health
       value: 
       objectReference: {fileID: 1988339404}
+    - target: {fileID: 8425887368116379802, guid: a23d004515b603a45bdfd8912e40e6e9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 540
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

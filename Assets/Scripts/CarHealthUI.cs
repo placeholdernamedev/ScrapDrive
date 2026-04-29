@@ -6,6 +6,7 @@ public class CarHealthUI : MonoBehaviour
 {
     public CarHealth health;
     public VehicleInteraction vehicleInteraction;
+    public RectTransform Background;
     public RectTransform fillBar;
 
     public TextMeshProUGUI healthText;
@@ -48,6 +49,11 @@ public class CarHealthUI : MonoBehaviour
         if (healthText != null)
         {
             healthText.gameObject.SetActive(show);
+        }
+
+        if (Background != null)
+        {
+            Background.gameObject.SetActive(show);
         }
     }
 }
