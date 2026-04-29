@@ -22,6 +22,7 @@ public class CameraFollow : MonoBehaviour
     void LateUpdate()
     {
         if (!currentTarget) return;
+        if (Time.timeScale == 0f) return;
 
         yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
         pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;

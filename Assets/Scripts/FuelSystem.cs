@@ -32,9 +32,16 @@ public class FuelSystem : MonoBehaviour
 
     public void Refuel(float amount)
     {
-        currentFuel += amount;
+        if (amount <= 0f) return;
+
+        float missingFuel = Mathf.Max(0f, maxFuel - currentFuel);
+        float refillAmount = Mathf.Min(amount, missingFuel);
+        currentFuel += refillAmount;
         currentFuel = Mathf.Clamp(currentFuel, 0f, maxFuel); // makes sure fuel level does not go above max fuel.
         isFueled = true;
-        carMovement.setFueled(true);
+        if (carMovement != null)
+        {
+            carMovement.setFueled(true);
+        }
     }
 }

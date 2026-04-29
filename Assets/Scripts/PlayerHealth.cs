@@ -42,9 +42,12 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable
 
     public void Heal(float amount)
     {
-        if (!IsAlive) return;
+        if (!IsAlive || amount <= 0f) return;
 
-        currentHealth = Mathf.Clamp(currentHealth + amount, 0f, maxHealth);
+        float missingHealth = Mathf.Max(0f, maxHealth - currentHealth);
+        float healAmount = Mathf.Min(amount, missingHealth);
+        currentHealth += healAmount;
+        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
     }
 
     private void Die()

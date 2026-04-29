@@ -66,7 +66,7 @@ public class GameFlowScreens : MonoBehaviour
         DrawCenteredLabel("SCRAPDRIVE", -70f, 40);
         DrawCenteredLabel("Press Begin to start", -24f, 26);
 
-        if (DrawCenteredButton("Begin", 22f, 220f, 48f))
+        if (DrawRightSideButton("Begin", 22f, 220f, 48f))
         {
             hasStarted = true;
             ResumeGame();
@@ -78,7 +78,7 @@ public class GameFlowScreens : MonoBehaviour
         DrawOverlay();
         DrawCenteredLabel("GAME OVER", -35f, 44);
 
-        if (DrawCenteredButton("Restart", 30f, 220f, 48f))
+        if (DrawRightSideButton("Restart", 30f, 220f, 48f))
         {
             ResumeGame();
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -104,9 +104,10 @@ public class GameFlowScreens : MonoBehaviour
         GUI.Label(rect, text, style);
     }
 
-    private static bool DrawCenteredButton(string text, float yOffset, float width, float height)
+    private static bool DrawRightSideButton(string text, float yOffset, float width, float height)
     {
-        Rect rect = new Rect((Screen.width - width) * 0.5f, Screen.height * 0.5f + yOffset, width, height);
+        float rightPadding = 48f;
+        Rect rect = new Rect(Screen.width - width - rightPadding, Screen.height * 0.5f + yOffset, width, height);
         return GUI.Button(rect, text);
     }
 
