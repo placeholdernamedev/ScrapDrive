@@ -7,6 +7,7 @@ public class VehicleInteraction : MonoBehaviour
     public CarMovement carController;          // your car control script object
     public CharacterController playerController;    // your player movement script
     public CameraFollow cameraFollow;
+    public TurretController turretController;
 
     [Header("Camera Targets")]
     public Transform playerCameraTarget;
@@ -18,6 +19,7 @@ public class VehicleInteraction : MonoBehaviour
     [Header("UI")]
     public GameObject enterPromptUI;
     public TMPro.TMP_Text promptText;
+    public GameObject crosshair;
 
     private bool canEnter = false;
     private bool inVehicle = false;
@@ -79,6 +81,10 @@ public class VehicleInteraction : MonoBehaviour
         // Enable car controls
         carController.enabled = true;
 
+        // Enable turret control
+        turretController.enabled = true;
+        crosshair.SetActive(true);
+
         // Switch camera
         cameraFollow.currentTarget = carCameraTarget;
 
@@ -90,6 +96,10 @@ public class VehicleInteraction : MonoBehaviour
 
     // Disable car controls
     carController.enabled = false;
+
+    // Disable Turret controls
+    turretController.enabled = false;
+    crosshair.SetActive(false);
 
     // Disable CharacterController BEFORE moving
     CharacterController cc = player.GetComponent<CharacterController>();
