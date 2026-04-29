@@ -6,20 +6,45 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 5f;
     public float gravity = -9.81f;
     public float rotationSpeed = 10f;
+    public Transform cameraTransform;
 
     private CharacterController controller;
     private Vector3 velocity;
+    private CameraFollow cameraFollow;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        ResolveCameraTransform();
 
         velocity.y = -2f; // forces player onto ground initially
     }
 
     void Update()
     {
+        if (cameraTransform == null)
+        {
+            ResolveCameraTransform();
+        }
+
         MovePlayer();
+    }
+
+    void ResolveCameraTransform()
+    {
+        if (cameraTransform != null) return;
+
+        if (Camera.main != null)
+        {
+            cameraTransform = Camera.main.transform;
+            return;
+        }
+
+        cameraFollow = FindFirstObjectByType<CameraFollow>();
+        if (cameraFollow != null)
+        {
+            cameraTransform = cameraFollow.transform;
+        }
     }
 
     void MovePlayer()
@@ -28,7 +53,21 @@ public class PlayerMovement : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        Vector3 move = transform.right * x + transform.forward * z;
+        Vector3 move;
+        if (cameraTransform != null)
+        {
+            Vector3 camForward = cameraTransform.forward;
+            Vector3 camRight = cameraTransform.right;
+            camForward.y = 0f;
+            camRight.y = 0f;
+            camForward.Normalize();
+            camRight.Normalize();
+            move = camRight * x + camForward * z;
+        }
+        else
+        {
+            move = transform.right * x + transform.forward * z;
+        }
 
         // Movement
         controller.Move(move * moveSpeed * Time.deltaTime);
