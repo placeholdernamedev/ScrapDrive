@@ -21,6 +21,8 @@ public class VehicleInteraction : MonoBehaviour
 
     private bool canEnter = false;
     private bool inVehicle = false;
+    public bool InVehicle => inVehicle; // note that this is capital here, there's a difference, this is a read only property for other scripts to access
+    public bool CanEnter => canEnter; // same deal as above here.
 
     void Start()
     {
@@ -35,11 +37,11 @@ public class VehicleInteraction : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            if (canEnter && !inVehicle)
+            if (CanEnter && !InVehicle)
             {
                 EnterVehicle();
             }
-            else if (inVehicle)
+            else if (InVehicle)
             {
                 ExitVehicle();
             }
@@ -48,12 +50,12 @@ public class VehicleInteraction : MonoBehaviour
 
     void UpdatePromptUI()
     {
-        if (inVehicle)
+        if (InVehicle)
         {
             enterPromptUI.SetActive(true);
             promptText.text = "Press Z to Exit the Vehicle";
         }
-        else if (canEnter)
+        else if (CanEnter)
         {
             enterPromptUI.SetActive(true);
             promptText.text = "Press Z to Enter the Vehicle";
