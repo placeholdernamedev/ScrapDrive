@@ -699,9 +699,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   currentTarget: {fileID: 885997394}
-  offset: {x: 0, y: 8, z: -14}
-  followSpeed: 10
-  rotationSpeed: 12
+  offset: {x: 0, y: 4, z: -8}
+  mouseSensitivity: 4
+  minPitch: -35
+  maxPitch: 65
 --- !u!1 &1096462796
 GameObject:
   m_ObjectHideFlags: 0
@@ -881,10 +882,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3da4c8a5ba3be44d9c7de09c39326e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CarMovement
+  Facceleration: 200
+  FmaxSpeed: 500
+  FturnSpeed: 120
+  FdragOnGround: 4
+  NFacceleration: 35
+  NFmaxSpeed: 85
+  NFturnSpeed: 50
+  NFdragOnGround: 1
   acceleration: 200
   maxSpeed: 500
   turnSpeed: 80
   dragOnGround: 4
+  fuelSystem: {fileID: 0}
 --- !u!54 &1114376067
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1723,7 +1733,7 @@ Transform:
   m_GameObject: {fileID: 2123260020}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 12, z: -10}
+  m_LocalPosition: {x: 0, y: 4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
