@@ -19,6 +19,7 @@ public class CarMovement : MonoBehaviour
     [SerializeField] private float turnSpeed;
     [SerializeField] private float dragOnGround;
     private Rigidbody rb;
+    [SerializeField] private float downforce = 50f;
 
     // reference for fuel system for checking for fuel
     public FuelSystem fuelSystem;
@@ -78,5 +79,7 @@ public class CarMovement : MonoBehaviour
         {
         rb.linearDamping = dragOnGround;
         }
+        float speed = rb.linearVelocity.magnitude;
+        rb.AddForce(-transform.up * downforce * speed, ForceMode.Force);
     }
 }

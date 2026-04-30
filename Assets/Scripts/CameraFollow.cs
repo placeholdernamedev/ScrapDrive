@@ -17,6 +17,10 @@ public class CameraFollow : MonoBehaviour
         Vector3 euler = transform.eulerAngles;
         yaw = euler.y;
         pitch = euler.x;
+
+        // Start with free cursor
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     void LateUpdate()
@@ -24,9 +28,20 @@ public class CameraFollow : MonoBehaviour
         if (!currentTarget) return;
         if (Time.timeScale == 0f) return;
 
-        yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
-        pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
-        pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
+        if (Input.GetMouseButton(1)) // Hold RMB to control camera
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
+            yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
+            pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+            pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
 
         Quaternion orbitRotation = Quaternion.Euler(pitch, yaw, 0f);
 
