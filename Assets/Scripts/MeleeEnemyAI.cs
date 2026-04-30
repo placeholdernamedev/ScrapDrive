@@ -68,7 +68,15 @@ public class MeleeEnemyAI : MonoBehaviour
 
         if (Time.time >= lastAttackTime + attackCoolDown)
         {
+            IDamageable damageable = currentTarget.GetComponent<IDamageable>();
+
+            if (damageable != null)
+            {
+                damageable.TakeDamage(damage);
+            }
+
             Debug.Log("Enemy attacked the " + currentTarget.name + " for " + damage + " damage!");
+
             lastAttackTime = Time.time;
         }
     }
