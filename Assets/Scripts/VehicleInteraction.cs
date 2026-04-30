@@ -108,6 +108,20 @@ public class VehicleInteraction : MonoBehaviour
         if (cc) cc.enabled = true;
 
         playerController.enabled = true;
+    // Move player to exit point
+    player.position = exitPoint.position;
+
+    // Force flat forward direction (ignore tilt)
+    Vector3 forward = exitPoint.forward;
+    forward.y = 0f;
+
+    if (forward.sqrMagnitude > 0.001f)
+    {
+        player.rotation = Quaternion.LookRotation(forward.normalized, Vector3.up);
+    }
+    
+    // Re-enable CharacterController
+    if (cc) cc.enabled = true;
 
         // show player visuals
         foreach (Renderer r in player.GetComponentsInChildren<Renderer>())
