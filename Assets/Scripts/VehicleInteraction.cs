@@ -99,37 +99,26 @@ public class VehicleInteraction : MonoBehaviour
         turretController.enabled = false;
         crosshair.SetActive(false);
 
-        CharacterController cc = player.GetComponent<CharacterController>();
-        if (cc) cc.enabled = false;
+        playerController.enabled = false;
 
         player.position = exitPoint.position;
-        player.rotation = exitPoint.rotation;
 
-        if (cc) cc.enabled = true;
+        Vector3 forward = exitPoint.forward;
+        forward.y = 0f;
+
+        if (forward.sqrMagnitude > 0.001f)
+            player.rotation = Quaternion.LookRotation(forward, Vector3.up);
+
+        CharacterController cc = player.GetComponent<CharacterController>();
+        cc.enabled = false;
+        cc.enabled = true;
 
         playerController.enabled = true;
-    // Move player to exit point
-    player.position = exitPoint.position;
-
-    // Force flat forward direction (ignore tilt)
-    Vector3 forward = exitPoint.forward;
-    forward.y = 0f;
-
-    if (forward.sqrMagnitude > 0.001f)
-    {
-        player.rotation = Quaternion.LookRotation(forward.normalized, Vector3.up);
-    }
-    
-    // Re-enable CharacterController
-    if (cc) cc.enabled = true;
-
-        // show player visuals
-        foreach (Renderer r in player.GetComponentsInChildren<Renderer>())
-        {
-            r.enabled = true;
-        }
 
         cameraFollow.currentTarget = playerCameraTarget;
+
+        foreach (Renderer r in player.GetComponentsInChildren<Renderer>())
+            r.enabled = true;
     }
 
     private void OnTriggerEnter(Collider other)
