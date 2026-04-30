@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
+    public static int TotalRobotsKilled { get; private set; }
+
     public float maxHealth = 50f;
     [SerializeField] private float iFrameDuration = 0.1f;
 
@@ -42,6 +44,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     private void DestroyEnemy()
     {
         isDestroyed = true;
+        TotalRobotsKilled++;
 
         Debug.Log("Enemy Destroyed");
 
@@ -52,6 +55,11 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         }
 
         Destroy(gameObject, 0.5f);
+    }
+
+    public static void ResetKillCount()
+    {
+        TotalRobotsKilled = 0;
     }
 
     public float GetHealthPercent()

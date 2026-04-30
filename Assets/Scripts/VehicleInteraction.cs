@@ -121,6 +121,16 @@ public class VehicleInteraction : MonoBehaviour
             r.enabled = true;
     }
 
+    public void ForceExitIfInVehicle()
+    {
+        if (!inVehicle)
+        {
+            return;
+        }
+
+        ExitVehicle();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))

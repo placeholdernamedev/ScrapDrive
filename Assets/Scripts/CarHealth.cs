@@ -64,6 +64,7 @@ public class CarHealth : MonoBehaviour, IDamageable, IHealable
         var vehicleInteraction = GetComponent<VehicleInteraction>();
         if (vehicleInteraction != null)
         {
+            vehicleInteraction.ForceExitIfInVehicle();
             vehicleInteraction.enabled = false;
         }
 

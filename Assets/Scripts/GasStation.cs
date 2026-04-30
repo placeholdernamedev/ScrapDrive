@@ -58,7 +58,9 @@ public class GasStation : MonoBehaviour
         if (canRefuel)
         {
             enterPromptUI.SetActive(true);
-            promptText.text = "Hold X to Refuel";
+            int currentFuelRounded = Mathf.RoundToInt(currentFuel.currentFuel);
+            int maxFuelRounded = Mathf.RoundToInt(currentFuel.maxFuel);
+            promptText.text = $"Fuel: {currentFuelRounded} / {maxFuelRounded}\nHold X to Refuel";
 
             if (Input.GetKey(KeyCode.X))
             {

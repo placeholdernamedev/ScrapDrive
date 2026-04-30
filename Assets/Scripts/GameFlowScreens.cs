@@ -6,12 +6,17 @@ public class GameFlowScreens : MonoBehaviour
     private PlayerHealth playerHealth;
     private bool hasStarted;
     private bool isGameOver;
+    private bool isPlaytestScene;
+    private float deathTimeSurvived;
+    private int robotsKilledAtDeath;
+    private StopwatchTimer stopwatchTimer;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void CreateGameFlowScreens()
     {
         Scene activeScene = SceneManager.GetActiveScene();
-        if (activeScene.name != "Zak_Dev")
+        bool supportedScene = activeScene.name == "Zak_Dev" || activeScene.name == "PlaytestLevel";
+        if (!supportedScene)
         {
             return;
         }
@@ -22,7 +27,19 @@ public class GameFlowScreens : MonoBehaviour
 
     private void Start()
     {
+        Scene activeScene = SceneManager.GetActiveScene();
+        isPlaytestScene = activeScene.name == "PlaytestLevel";
         playerHealth = FindFirstObjectByType<PlayerHealth>();
+        stopwatchTimer = FindFirstObjectByType<StopwatchTimer>();
+
+        if (isPlaytestScene)
+        {
+            EnemyHealth.ResetKillCount();
+            hasStarted = true;
+            ResumeGame();
+            return;
+        }
+
         PauseGame();
     }
 
@@ -42,6 +59,14 @@ public class GameFlowScreens : MonoBehaviour
         if (hasStarted && !playerHealth.IsAlive)
         {
             isGameOver = true;
+            deathTimeSurvived = stopwatchTimer != null ? stopwatchTimer.elapsedTime : Time.timeSinceLevelLoad;
+            robotsKilledAtDeath = EnemyHealth.TotalRobotsKilled;
+
+            if (stopwatchTimer != null)
+            {
+                stopwatchTimer.PauseTimer();
+            }
+
             PauseGame();
         }
     }
@@ -77,8 +102,10 @@ public class GameFlowScreens : MonoBehaviour
     {
         DrawOverlay();
         DrawCenteredLabel("GAME OVER", -35f, 44);
+        DrawCenteredLabel($"Time Survived: {FormatTime(deathTimeSurvived)}", 10f, 28);
+        DrawCenteredLabel($"Robots Killed: {robotsKilledAtDeath}", 48f, 28);
 
-        if (DrawRightSideButton("Restart", 30f, 220f, 48f))
+        if (DrawRightSideButton("Restart", 98f, 220f, 48f))
         {
             ResumeGame();
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -109,6 +136,13 @@ public class GameFlowScreens : MonoBehaviour
         float rightPadding = 48f;
         Rect rect = new Rect(Screen.width - width - rightPadding, Screen.height * 0.5f + yOffset, width, height);
         return GUI.Button(rect, text);
+    }
+
+    private static string FormatTime(float totalSeconds)
+    {
+        int minutes = Mathf.FloorToInt(totalSeconds / 60f);
+        int seconds = Mathf.FloorToInt(totalSeconds % 60f);
+        return $"{minutes:00}:{seconds:00}";
     }
 
     private static void PauseGame()
