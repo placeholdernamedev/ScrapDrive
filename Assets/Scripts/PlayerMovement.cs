@@ -49,6 +49,8 @@ public class PlayerMovement : MonoBehaviour
 
     void MovePlayer()
     {
+        if (!enabled || controller == null || !controller.enabled) return;
+        
         // Input
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");

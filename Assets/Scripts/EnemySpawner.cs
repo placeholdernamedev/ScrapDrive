@@ -5,6 +5,7 @@ public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
     public Transform player;
+    public Transform car;
 
     public int swarmSize = 5;
     public float spawnRadius = 10f;
@@ -39,6 +40,7 @@ public class EnemySpawner : MonoBehaviour
             if (enemyAI != null)
             {
                 enemyAI.player = player;
+                enemyAI.car = car;
             }
         }
     }

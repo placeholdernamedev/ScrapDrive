@@ -4,6 +4,9 @@ using UnityEngine.AI;
 public class MeleeEnemyAI : MonoBehaviour
 {
     public Transform player;
+    public Transform car;
+
+    private Transform currentTarget;
 
     public float detectionRange = 12f;
     public float attackRange = 2f;
@@ -11,6 +14,8 @@ public class MeleeEnemyAI : MonoBehaviour
     public int damage = 10;
 
     private NavMeshAgent agent;
+
+    private VehicleInteraction vi;
     private float lastAttackTime;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -18,30 +23,35 @@ public class MeleeEnemyAI : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
 
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (car != null)
+        {
+           vi = car.GetComponent<VehicleInteraction>();
+        }
 
-        if (playerObj != null)
-        {
-            player = playerObj.transform;
-        }
-        else
-        {
-            Debug.LogWarning("No Object with tag 'Player' has been found");
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (player == null) return;
 
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        if (player == null && car == null) return;
 
-        if (distanceToPlayer < attackRange)
+        if (vi != null && vi.InVehicle && car != null)
+        {
+            currentTarget = car;
+        }
+        else
+        {
+            currentTarget = player;
+        }
+
+        float distanceToTarget = Vector3.Distance(transform.position, currentTarget.position);
+
+        if (distanceToTarget < attackRange)
         {
             Attack();
         }
-        else if (distanceToPlayer < detectionRange)
+        else if (distanceToTarget < detectionRange)
         {
             Chase();
         }
@@ -54,11 +64,11 @@ public class MeleeEnemyAI : MonoBehaviour
     void Attack()
     {
         agent.isStopped = true;
-        FacePlayer();
+        FaceTarget();
 
         if (Time.time >= lastAttackTime + attackCoolDown)
         {
-            Debug.Log("Enemy attacked the player for " + damage + " damage!");
+            Debug.Log("Enemy attacked the " + currentTarget.name + " for " + damage + " damage!");
             lastAttackTime = Time.time;
         }
     }
@@ -66,7 +76,7 @@ public class MeleeEnemyAI : MonoBehaviour
     void Chase()
     {
         agent.isStopped = false;
-        agent.SetDestination(player.position);
+        agent.SetDestination(currentTarget.position);
     }
 
     void Idle()
@@ -74,9 +84,9 @@ public class MeleeEnemyAI : MonoBehaviour
         agent.isStopped = true;
     }
 
-    void FacePlayer()
+    void FaceTarget()
     {
-        Vector3 direction = player.position - transform.position;
+        Vector3 direction = currentTarget.position - transform.position;
         direction.y = 0; // Keep the enemy upright
 
         if (direction != Vector3.zero) 
