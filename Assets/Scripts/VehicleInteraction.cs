@@ -23,12 +23,11 @@ public class VehicleInteraction : MonoBehaviour
 
     private bool canEnter = false;
     private bool inVehicle = false;
-    public bool InVehicle => inVehicle; // note that this is capital here, there's a difference, this is a read only property for other scripts to access
-    public bool CanEnter => canEnter; // same deal as above here.
+    public bool InVehicle => inVehicle;
+    public bool CanEnter => canEnter;
 
     void Start()
     {
-        // Make sure UI is hidden at start
         if (enterPromptUI != null)
             enterPromptUI.SetActive(false);
     }
@@ -36,6 +35,12 @@ public class VehicleInteraction : MonoBehaviour
     void Update()
     {
         UpdatePromptUI();
+
+        // keep the player riding on the car so enemies that target the player chase the car
+        if (inVehicle && player != null && carController != null)
+        {
+            player.position = carController.transform.position;
+        }
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -72,55 +77,46 @@ public class VehicleInteraction : MonoBehaviour
     {
         inVehicle = true;
 
-        // Disable player controls
         playerController.enabled = false;
 
-        // Hide player (optional)
-        player.gameObject.SetActive(false);
+        // hide player visuals (used to SetActive(false) but that froze its Transform position)
+        foreach (Renderer r in player.GetComponentsInChildren<Renderer>())
+        {
+            r.enabled = false;
+        }
 
-        // Enable car controls
         carController.enabled = true;
-
-        // Enable turret control
         turretController.enabled = true;
         crosshair.SetActive(true);
-
-        // Switch camera
         cameraFollow.currentTarget = carCameraTarget;
-
     }
 
-   void ExitVehicle()
-{
-    inVehicle = false;
+    void ExitVehicle()
+    {
+        inVehicle = false;
 
-    // Disable car controls
-    carController.enabled = false;
+        carController.enabled = false;
+        turretController.enabled = false;
+        crosshair.SetActive(false);
 
-    // Disable Turret controls
-    turretController.enabled = false;
-    crosshair.SetActive(false);
+        CharacterController cc = player.GetComponent<CharacterController>();
+        if (cc) cc.enabled = false;
 
-    // Disable CharacterController BEFORE moving
-    CharacterController cc = player.GetComponent<CharacterController>();
-    if (cc) cc.enabled = false;
+        player.position = exitPoint.position;
+        player.rotation = exitPoint.rotation;
 
-    // Move player to exit point
-    player.position = exitPoint.position;
-    player.rotation = exitPoint.rotation;
+        if (cc) cc.enabled = true;
 
-    // Re-enable CharacterController
-    if (cc) cc.enabled = true;
+        playerController.enabled = true;
 
-    // Re-enable player controls
-    playerController.enabled = true;
+        // show player visuals
+        foreach (Renderer r in player.GetComponentsInChildren<Renderer>())
+        {
+            r.enabled = true;
+        }
 
-    // Show player
-    player.gameObject.SetActive(true);
-
-    // Switch camera back
-    cameraFollow.currentTarget = playerCameraTarget;
-}
+        cameraFollow.currentTarget = playerCameraTarget;
+    }
 
     private void OnTriggerEnter(Collider other)
     {

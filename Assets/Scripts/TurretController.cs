@@ -95,10 +95,10 @@ public class TurretController : MonoBehaviour
     {
         endPoint = hit.point;
 
-        var health = hit.collider.GetComponent<EnemyHealth>();
-        if (health != null)
+        var damageable = hit.collider.GetComponent<IDamageable>();
+        if (damageable != null)
         {
-            //health.TakeDamage(damage); Needs to be added when enemy health is done
+            damageable.TakeDamage(damage);
         }
     }
     else
