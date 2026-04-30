@@ -50,20 +50,31 @@ public class GasStation : MonoBehaviour
     // HANDLE REFUELING
     private void Update()
     {
-        if (!playerInside) return;
-        if (currentVehicle == null || currentFuel == null) return;
-
-        // UI Update
-        enterPromptUI.SetActive(true);
-        promptText.text = "Hold X to Refuel";
-
-        // must be outside car
-        if (!currentVehicle.InVehicle && Input.GetKey(KeyCode.X))
+        if (!playerInside || currentVehicle == null || currentFuel == null)
         {
-            if (currentFuel.currentFuel < currentFuel.maxFuel)
+            if (enterPromptUI != null)
+                enterPromptUI.SetActive(false);
+
+            return;
+        }
+
+        // Only show UI if actually able to refuel
+        bool canRefuel = !currentVehicle.InVehicle &&
+                        currentFuel.currentFuel < currentFuel.maxFuel;
+
+        if (canRefuel)
+        {
+            enterPromptUI.SetActive(true);
+            promptText.text = "Hold X to Refuel";
+
+            if (Input.GetKey(KeyCode.X))
             {
                 currentFuel.Refuel(refuelRate * Time.deltaTime);
             }
+        }
+        else
+        {
+            enterPromptUI.SetActive(false);
         }
     }
 }
