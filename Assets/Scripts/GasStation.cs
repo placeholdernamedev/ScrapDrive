@@ -50,13 +50,6 @@ public class GasStation : MonoBehaviour
     // HANDLE REFUELING
     private void Update()
     {
-        if (!playerInside || currentVehicle == null || currentFuel == null)
-        {
-            if (enterPromptUI != null)
-                enterPromptUI.SetActive(false);
-
-            return;
-        }
 
         // Only show UI if actually able to refuel
         bool canRefuel = !currentVehicle.InVehicle &&
