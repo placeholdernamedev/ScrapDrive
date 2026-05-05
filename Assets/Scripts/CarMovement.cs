@@ -77,9 +77,19 @@ public class CarMovement : MonoBehaviour
         }
         else
         {
-        rb.linearDamping = dragOnGround;
+            rb.linearDamping = dragOnGround;
         }
         float speed = rb.linearVelocity.magnitude;
-        rb.AddForce(-transform.up * downforce * speed, ForceMode.Force);
+
+        // Apply stable downforce (ignores mass, always downward)
+        rb.AddForce(Vector3.down * downforce * speed, ForceMode.Acceleration);
+
+        // Kill unwanted upward lift
+        Vector3 v = rb.linearVelocity;
+        if (v.y > 0f)
+        {
+            v.y *= 0.3f; // reduce upward velocity
+        }
+        rb.linearVelocity = v;
     }
 }
