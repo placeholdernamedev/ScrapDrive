@@ -14,6 +14,7 @@ public class MeleeEnemyAI : MonoBehaviour
     public int damage = 10;
 
     private NavMeshAgent agent;
+    private Animator animator;
 
     private VehicleInteraction vi;
     private float lastAttackTime;
@@ -22,6 +23,7 @@ public class MeleeEnemyAI : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
 
         if (car != null)
         {
@@ -66,8 +68,12 @@ public class MeleeEnemyAI : MonoBehaviour
         agent.isStopped = true;
         FaceTarget();
 
+        animator.SetBool("isMoving", false);
+
         if (Time.time >= lastAttackTime + attackCoolDown)
         {
+            animator.SetTrigger("Attack");
+
             IDamageable damageable = currentTarget.GetComponent<IDamageable>();
 
             if (damageable != null)
@@ -85,11 +91,14 @@ public class MeleeEnemyAI : MonoBehaviour
     {
         agent.isStopped = false;
         agent.SetDestination(currentTarget.position);
+
+        animator.SetBool("isMoving", true);
     }
 
     void Idle()
     {
         agent.isStopped = true;
+        animator.SetBool("isMoving", false);
     }
 
     void FaceTarget()
