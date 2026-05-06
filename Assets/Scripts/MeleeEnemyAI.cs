@@ -9,7 +9,7 @@ public class MeleeEnemyAI : MonoBehaviour
     private Transform currentTarget;
 
     public float detectionRange = 12f;
-    public float attackRange = 2f;
+    public float attackRange = 4f;
     public float attackCoolDown = 1f;
     public int damage = 10;
 
@@ -68,11 +68,19 @@ public class MeleeEnemyAI : MonoBehaviour
         agent.isStopped = true;
         FaceTarget();
 
-        animator.SetBool("isMoving", false);
-
+        if (animator != null)
+        {
+            animator.SetBool("IsMoving", false);
+        }
+            
         if (Time.time >= lastAttackTime + attackCoolDown)
         {
-            animator.SetTrigger("Attack");
+
+            if (animator != null)
+            {
+                Debug.Log("Attack trigger fired");
+                animator.SetTrigger("Attack");
+            }
 
             IDamageable damageable = currentTarget.GetComponent<IDamageable>();
 
@@ -92,13 +100,19 @@ public class MeleeEnemyAI : MonoBehaviour
         agent.isStopped = false;
         agent.SetDestination(currentTarget.position);
 
-        animator.SetBool("isMoving", true);
+        if (animator != null)
+        {
+            animator.SetBool("IsMoving", true);
+        }
     }
 
     void Idle()
     {
         agent.isStopped = true;
-        animator.SetBool("isMoving", false);
+        if (animator != null)
+        {
+            animator.SetBool("IsMoving", false);
+        }
     }
 
     void FaceTarget()
