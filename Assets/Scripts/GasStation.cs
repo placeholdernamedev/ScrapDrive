@@ -6,26 +6,21 @@ public class GasStation : MonoBehaviour
     private VehicleInteraction currentVehicle;
     private FuelSystem currentFuel;
     private bool playerInside = false;
-    
+
+    private bool _uiActiveByThisStation = false;
+
     [Header("UI")]
     public GameObject enterPromptUI;
     public TMPro.TMP_Text promptText;
 
     void Start()
     {
-        // Make sure UI is hidden at start
-        if (enterPromptUI != null)
-            enterPromptUI.SetActive(false);
+        if (enterPromptUI != null) enterPromptUI.SetActive(false);
     }
 
-    // PLAYER ENTERS/EXITS STATION
     private void OnTriggerEnter(Collider other)
-    {   
-        if (other.CompareTag("Player"))
-        {
-            playerInside = true;
-        }
-
+    {
+        if (other.CompareTag("Player")) playerInside = true;
         if (other.CompareTag("Car"))
         {
             currentVehicle = other.GetComponent<VehicleInteraction>();
@@ -35,11 +30,7 @@ public class GasStation : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            playerInside = false;
-        }
-
+        if (other.CompareTag("Player")) playerInside = false;
         if (other.CompareTag("Car"))
         {
             currentVehicle = null;
@@ -47,29 +38,41 @@ public class GasStation : MonoBehaviour
         }
     }
 
-    // HANDLE REFUELING
     private void Update()
     {
+        if (currentVehicle == null || currentFuel == null)
+        {
+            if (_uiActiveByThisStation && enterPromptUI != null)
+            {
+                enterPromptUI.SetActive(false);
+                _uiActiveByThisStation = false;
+            }
+            return;
+        }
 
-        // Only show UI if actually able to refuel
         bool canRefuel = !currentVehicle.InVehicle &&
-                        currentFuel.currentFuel < currentFuel.maxFuel;
+                         currentFuel.currentFuel < currentFuel.maxFuel;
 
         if (canRefuel)
         {
-            enterPromptUI.SetActive(true);
-            int currentFuelRounded = Mathf.RoundToInt(currentFuel.currentFuel);
-            int maxFuelRounded = Mathf.RoundToInt(currentFuel.maxFuel);
-            promptText.text = $"Fuel: {currentFuelRounded} / {maxFuelRounded}\nHold X to Refuel";
-
-            if (Input.GetKey(KeyCode.X))
+            if (enterPromptUI != null) enterPromptUI.SetActive(true);
+            _uiActiveByThisStation = true;
+            if (promptText != null)
             {
-                currentFuel.Refuel(refuelRate * Time.deltaTime);
+                int curR = Mathf.RoundToInt(currentFuel.currentFuel);
+                int maxR = Mathf.RoundToInt(currentFuel.maxFuel);
+                promptText.text = $"Fuel: {curR} / {maxR}\nHold X to Refuel";
             }
+            if (Input.GetKey(KeyCode.X))
+                currentFuel.Refuel(refuelRate * Time.deltaTime);
         }
         else
         {
-            enterPromptUI.SetActive(false);
+            if (_uiActiveByThisStation && enterPromptUI != null)
+            {
+                enterPromptUI.SetActive(false);
+                _uiActiveByThisStation = false;
+            }
         }
     }
 }

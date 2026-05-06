@@ -8,6 +8,7 @@ public class CameraFollow : MonoBehaviour
     public float mouseSensitivity = 4f;
     public float minPitch = -35f;
     public float maxPitch = 65f;
+    public Vector3 vehicleOffset = new Vector3(0f, 3f, -6f);
 
     private float yaw;
     private float pitch;
@@ -45,7 +46,8 @@ public class CameraFollow : MonoBehaviour
 
         Quaternion orbitRotation = Quaternion.Euler(pitch, yaw, 0f);
 
-        Vector3 desiredPosition = currentTarget.position + orbitRotation * offset;
+        Vector3 chosenOffset = (currentTarget.name == "CarCameraAnchor") ? vehicleOffset : offset;
+        Vector3 desiredPosition = currentTarget.position + orbitRotation * chosenOffset;
         transform.position = desiredPosition;
 
         Quaternion desiredRotation = Quaternion.LookRotation(currentTarget.position - transform.position);

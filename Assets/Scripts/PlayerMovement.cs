@@ -38,8 +38,6 @@ public class PlayerMovement : MonoBehaviour
 
     void ResolveCameraTransform()
     {
-        if (cameraTransform != null) return;
-
         if (Camera.main != null)
         {
             cameraTransform = Camera.main.transform;
@@ -74,15 +72,21 @@ public class PlayerMovement : MonoBehaviour
         // Apply movement
         controller.Move(move * moveSpeed * Time.deltaTime);
 
-        // Rotate toward movement direction
-        if (move.magnitude > 0.1f)
+        // Face the direction the camera is looking
+        if (cameraTransform != null)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(move);
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                targetRotation,
-                rotationSpeed * Time.deltaTime
-            );
+            Vector3 lookDir = cameraTransform.forward;
+            lookDir.y = 0f;
+
+            if (lookDir.sqrMagnitude > 0.001f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    targetRotation,
+                    rotationSpeed * Time.deltaTime
+                );
+            }
         }
     }
 
