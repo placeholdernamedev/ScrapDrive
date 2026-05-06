@@ -50,6 +50,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
     }
 
+    public void ForceKillForGameOver()
+    {
+        StopAllCoroutines();
+        isInvincible = false;
+        currentHealth = 0f;
+        Die();
+    }
+
     private void Die()
     {
         Debug.Log("Player Died");

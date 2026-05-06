@@ -9,13 +9,23 @@ public class MarkerUI : MonoBehaviour
     public TMP_Text distanceText;
 
     private Camera cam;
+    private CanvasGroup canvasGroup;
 
-    void Start()
+    private void Awake()
+    {
+        canvasGroup = GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+        {
+            canvasGroup = gameObject.AddComponent<CanvasGroup>();
+        }
+    }
+
+    private void Start()
     {
         cam = Camera.main;
     }
 
-    void Update()
+    private void Update()
     {
         if (target == null)
         {
@@ -23,22 +33,36 @@ public class MarkerUI : MonoBehaviour
             return;
         }
 
+        if (cam == null)
+        {
+            cam = Camera.main;
+        }
+
+        if (cam == null)
+        {
+            return;
+        }
+
         Vector3 screenPos = cam.WorldToScreenPoint(target.position);
 
-        // Always show (even behind walls)
         transform.position = screenPos;
 
         float distance = Vector3.Distance(cam.transform.position, target.position);
-        distanceText.text = Mathf.RoundToInt(distance) + "m";
-
-        // Optional: hide if behind camera
-        if (screenPos.z < 0)
+        if (distanceText != null)
         {
-            gameObject.SetActive(false);
+            distanceText.text = Mathf.RoundToInt(distance) + "m";
+        }
+
+        bool behindCamera = screenPos.z < 0f;
+        if (behindCamera)
+        {
+            canvasGroup.alpha = 0f;
+            canvasGroup.blocksRaycasts = false;
         }
         else
         {
-            gameObject.SetActive(true);
+            canvasGroup.alpha = 1f;
+            canvasGroup.blocksRaycasts = true;
         }
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CarHealth : MonoBehaviour, IDamageable, IHealable
 {
@@ -66,6 +67,19 @@ public class CarHealth : MonoBehaviour, IDamageable, IHealable
         {
             vehicleInteraction.ForceExitIfInVehicle();
             vehicleInteraction.enabled = false;
+        }
+
+        if (SceneManager.GetActiveScene().name == "PlaytestLevel")
+        {
+            GameObject playerGo = GameObject.FindGameObjectWithTag("Player");
+            if (playerGo != null)
+            {
+                PlayerHealth playerHealth = playerGo.GetComponent<PlayerHealth>();
+                if (playerHealth != null)
+                {
+                    playerHealth.ForceKillForGameOver();
+                }
+            }
         }
 
         Destroy(gameObject, 3f);

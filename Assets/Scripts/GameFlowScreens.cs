@@ -21,15 +21,35 @@ public class GameFlowScreens : MonoBehaviour
             return;
         }
 
+        if (FindFirstObjectByType<GameFlowScreens>() != null)
+        {
+            return;
+        }
+
         GameObject root = new GameObject("GameFlowScreens");
         root.AddComponent<GameFlowScreens>();
+    }
+
+    private static PlayerHealth ResolvePlayerHealth()
+    {
+        GameObject playerGo = GameObject.FindGameObjectWithTag("Player");
+        if (playerGo != null)
+        {
+            PlayerHealth fromTag = playerGo.GetComponent<PlayerHealth>();
+            if (fromTag != null)
+            {
+                return fromTag;
+            }
+        }
+
+        return FindFirstObjectByType<PlayerHealth>();
     }
 
     private void Start()
     {
         Scene activeScene = SceneManager.GetActiveScene();
         isPlaytestScene = activeScene.name == "PlaytestLevel";
-        playerHealth = FindFirstObjectByType<PlayerHealth>();
+        playerHealth = ResolvePlayerHealth();
         stopwatchTimer = FindFirstObjectByType<StopwatchTimer>();
 
         if (isPlaytestScene)
@@ -52,7 +72,7 @@ public class GameFlowScreens : MonoBehaviour
 
         if (playerHealth == null)
         {
-            playerHealth = FindFirstObjectByType<PlayerHealth>();
+            playerHealth = ResolvePlayerHealth();
             return;
         }
 
