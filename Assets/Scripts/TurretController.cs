@@ -19,6 +19,10 @@ public class TurretController : MonoBehaviour
     public float damage = 10f;
     public float range = 1000f;
 
+    [Header("Audio")] // for shooting sound
+    public AudioSource gunAudioSource;
+    public AudioClip gunSound;
+
     [Header("Rotation")] // limits some movement
     public float rotationSpeed = 10f;
     public float minPitch = -10f;
@@ -105,6 +109,8 @@ public class TurretController : MonoBehaviour
     {
         endPoint = muzzle.position + direction * range;
     }
+
+    gunAudioSource.PlayOneShot(gunSound); // plays gunshot audio when shot
 
     StartCoroutine(DrawLine(muzzle.position, endPoint)); // draws a line for a set period of time
 }
