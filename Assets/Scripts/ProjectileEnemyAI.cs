@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,6 +8,7 @@ public class ProjectileEnemyAI : MonoBehaviour
     public Transform player;
     public Transform car;
     public LineRenderer laserbeam;
+    public Transform firePoint;
 
     public float patrolRange = 10f;
     public float waitAtPointTime = 2f;
@@ -126,7 +128,7 @@ public class ProjectileEnemyAI : MonoBehaviour
 
     void FireLaser()
     {
-        Vector3 origin = transform.position + Vector3.up * 1.5f;
+        Vector3 origin = firePoint.position;
         Vector3 target = car.position + Vector3.up * 1f;
         Vector3 direction = (target - origin).normalized;
 
@@ -145,14 +147,12 @@ public class ProjectileEnemyAI : MonoBehaviour
             }
         }
 
-        if (laserbeam != null)
-        {
-            laserbeam.enabled = true;
-            laserbeam.SetPosition(0, origin);
-            laserbeam.SetPosition(1, laserEndPoint);
+        laserbeam.enabled = true;
+        laserbeam.SetPosition(0, origin);
+        laserbeam.SetPosition(1, laserEndPoint);
 
-            Invoke(nameof(HideLaser), laserbeamduration);
-        }
+        CancelInvoke(nameof(HideLaser));
+        Invoke(nameof(HideLaser), laserbeamduration);
     }
 
     void HideLaser()
