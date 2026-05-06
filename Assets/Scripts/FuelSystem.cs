@@ -10,6 +10,12 @@ public class FuelSystem : MonoBehaviour
     public VehicleInteraction vehicleInteraction;
     public CarMovement carMovement;
 
+    [Header("Low Fuel Warning")]
+    public AudioSource lowFuelSource;
+    public float lowFuelThreshold = 15f;
+
+private bool warningPlaying = false;
+
     void Start()
     {
         currentFuel = maxFuel;
@@ -27,6 +33,23 @@ public class FuelSystem : MonoBehaviour
         {
             isFueled = false;
             carMovement.setFueled(false);
+        }
+
+        if (currentFuel <= lowFuelThreshold)
+        {
+            if (!warningPlaying)
+            {
+                lowFuelSource.Play();
+                warningPlaying = true;
+            }
+        }
+        else
+        {
+            if (warningPlaying)
+            {
+                lowFuelSource.Stop();
+                warningPlaying = false;
+            }
         }
     }
 
