@@ -7,6 +7,8 @@ public class CarHealth : MonoBehaviour, IDamageable, IHealable
     [SerializeField] private float iFrameDuration = 1f; // in seconds
 
     public float currentHealth;
+    public AudioSource audioDamageSource;
+    public AudioClip damageAudio;
     private bool isDestroyed = false;
     private bool isInvincible = false;
 
@@ -21,6 +23,8 @@ public class CarHealth : MonoBehaviour, IDamageable, IHealable
 
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+
+        audioDamageSource.PlayOneShot(damageAudio);
 
         if (currentHealth <= 0f)
         {

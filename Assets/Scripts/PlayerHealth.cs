@@ -6,6 +6,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable
     [SerializeField] private float iFrameDuration = 1f;
 
     public float currentHealth;
+    public AudioSource audioDamageSource;
+    public AudioClip damageAudio;
     private bool isInvincible = false; // starts false
 
     public bool IsAlive => currentHealth > 0f;
@@ -28,6 +30,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable
             return;
         }
 
+        audioDamageSource.PlayOneShot(damageAudio);
+        
         StartCoroutine(IFrameRoutine()); // I Frames
     }
 
