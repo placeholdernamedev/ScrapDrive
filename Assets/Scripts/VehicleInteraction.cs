@@ -60,12 +60,14 @@ public class VehicleInteraction : MonoBehaviour
         if (InVehicle)
         {
             enterPromptUI.SetActive(true);
-            promptText.text = "Press Z to Exit the Vehicle";
+            promptText.color = Color.white;
+            promptText.text = $"Press {KbdText.Kbd("Z")} to exit the vehicle";
         }
         else if (CanEnter)
         {
             enterPromptUI.SetActive(true);
-            promptText.text = "Press Z to Enter the Vehicle";
+            promptText.color = Color.white;
+            promptText.text = $"Press {KbdText.Kbd("Z")} to enter the vehicle";
         }
         else
         {

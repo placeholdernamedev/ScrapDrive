@@ -17,7 +17,18 @@ public class EnemySpawner : MonoBehaviour
 
     private float timer; // Timer to track time passed
 
-
+    void Start()
+    {
+        if (player == null || car == null)
+        {
+            var vi = FindFirstObjectByType<VehicleInteraction>();
+            if (vi != null)
+            {
+                if (player == null) player = vi.player;
+                if (car == null && vi.carController != null) car = vi.carController.transform;
+            }
+        }
+    }
 
     void Update()
     {
