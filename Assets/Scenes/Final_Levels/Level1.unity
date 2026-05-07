@@ -5308,7 +5308,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7236167527300700778, guid: f7f5741b8d4539a43bc23fed7067e56b, type: 3}
       propertyPath: fuelConsumptionRate
-      value: 2.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8538078181803168797, guid: f7f5741b8d4539a43bc23fed7067e56b, type: 3}
       propertyPath: player
