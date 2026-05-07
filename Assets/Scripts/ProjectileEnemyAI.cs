@@ -53,6 +53,7 @@ public class ProjectileEnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (player == null && car == null) return;
 
         if (vi != null && vi.InVehicle && car != null)
