@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4488947083893304920
+--- !u!1 &1107462955060909458
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 869584364714284799}
-  - component: {fileID: 4080783564865731818}
+  - component: {fileID: 7324671990142105544}
+  - component: {fileID: 8679328265938928203}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -17,42 +17,42 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!4 &869584364714284799
+--- !u!4 &7324671990142105544
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4488947083893304920}
+  m_GameObject: {fileID: 1107462955060909458}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.083333336, y: 10, z: 0.083333336}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6449466080222038011}
+  m_Father: {fileID: 3684765676969618168}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4080783564865731818
+--- !u!114 &8679328265938928203
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4488947083893304920}
+  m_GameObject: {fileID: 1107462955060909458}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fefa7682405240d498c0ea7e96f0fc73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  enemyPrefab1: {fileID: 5608385746100123223, guid: d5a53588a672a4a489209a7d6acd4ff8, type: 3}
+  enemyPrefab1: {fileID: 0}
   enemyPrefab2: {fileID: 3713036873682500111, guid: d4167088415ddcf49afaf847d2f68d5e, type: 3}
   player: {fileID: 0}
   car: {fileID: 0}
-  swarmSize1: 4
-  swarmSize2: 4
-  spawnRadius: 15
+  swarmSize1: 0
+  swarmSize2: 8
+  spawnRadius: 18
   spawnInterval: 15
---- !u!1 &6351407835944298175
+--- !u!1 &7378911802454588015
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -60,50 +60,50 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6449466080222038011}
-  - component: {fileID: 6023462678193100279}
-  - component: {fileID: 3642368069739478211}
-  - component: {fileID: 8388500100641368434}
-  - component: {fileID: 7602529030946525128}
-  - component: {fileID: 1691287412513298004}
+  - component: {fileID: 3684765676969618168}
+  - component: {fileID: 1667145962580101538}
+  - component: {fileID: 3170576462421401004}
+  - component: {fileID: 9211602320905823360}
+  - component: {fileID: 6367966247227118538}
+  - component: {fileID: 6179744736729450052}
   m_Layer: 0
-  m_Name: Enemy_squads
+  m_Name: Projectile_Big_Batch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6449466080222038011
+--- !u!4 &3684765676969618168
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6351407835944298175}
+  m_GameObject: {fileID: 7378911802454588015}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.233129, y: 0.05, z: 374.3356}
+  m_LocalPosition: {x: 53.311188, y: 0.05, z: 471.15024}
   m_LocalScale: {x: 50, y: 0.1, z: 50}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 869584364714284799}
+  - {fileID: 7324671990142105544}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6023462678193100279
+--- !u!33 &1667145962580101538
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6351407835944298175}
+  m_GameObject: {fileID: 7378911802454588015}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &3642368069739478211
+--- !u!65 &3170576462421401004
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6351407835944298175}
+  m_GameObject: {fileID: 7378911802454588015}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -118,13 +118,13 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &8388500100641368434
+--- !u!23 &9211602320905823360
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6351407835944298175}
+  m_GameObject: {fileID: 7378911802454588015}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -167,30 +167,30 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7602529030946525128
+--- !u!114 &6367966247227118538
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6351407835944298175}
+  m_GameObject: {fileID: 7378911802454588015}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7ef751ffa6641043afebc0c08029606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EncounterZone
-  spawnerObject: {fileID: 4488947083893304920}
+  spawnerObject: {fileID: 1107462955060909458}
   triggerOnCarEnter: 1
   triggerOnPlayerEnter: 0
   oneShot: 1
   oneShotDuration: 3
---- !u!114 &1691287412513298004
+--- !u!114 &6179744736729450052
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6351407835944298175}
+  m_GameObject: {fileID: 7378911802454588015}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b71e85570a1bfad43a9565fadda56289, type: 3}

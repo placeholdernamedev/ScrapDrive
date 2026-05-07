@@ -188,12 +188,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fefa7682405240d498c0ea7e96f0fc73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  enemyPrefab1: {fileID: 0}
+  enemyPrefab1: {fileID: 5608385746100123223, guid: d5a53588a672a4a489209a7d6acd4ff8, type: 3}
   enemyPrefab2: {fileID: 0}
   player: {fileID: 0}
   car: {fileID: 0}
-  startingSwarm1: 3
-  startingSwarm2: 3
   swarmSize1: 3
   swarmSize2: 0
   spawnRadius: 8
