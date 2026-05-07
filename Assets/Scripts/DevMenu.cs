@@ -38,25 +38,31 @@ public class DevMenu : MonoBehaviour
     {
         if (!show) return;
 
+        // Center the menu on the screen
+        const float menuW = 280f;
+        const float menuH = 215f;
+        float x0 = (Screen.width - menuW) * 0.5f;
+        float y0 = (Screen.height - menuH) * 0.5f;
+
         var prevColor = GUI.backgroundColor;
         GUI.backgroundColor = new Color(0f, 0f, 0f, 0.85f);
-        GUI.Box(new Rect(10, 10, 280, 215), "DEV MENU  (P to close)");
+        GUI.Box(new Rect(x0, y0, menuW, menuH), "DEV MENU  (P to close)");
         GUI.backgroundColor = prevColor;
 
-        if (GUI.Button(new Rect(20, 45, 260, 30), "Next Level"))
+        if (GUI.Button(new Rect(x0 + 10, y0 + 35, 260, 30), "Next Level"))
             GoToNextLevel();
 
-        if (GUI.Button(new Rect(20, 80, 260, 30), "Teleport to End"))
+        if (GUI.Button(new Rect(x0 + 10, y0 + 70, 260, 30), "Teleport to End"))
             TeleportToEnd();
 
-        bool newInf = GUI.Toggle(new Rect(20, 120, 260, 25), infiniteFuel, "  Infinite Fuel");
+        bool newInf = GUI.Toggle(new Rect(x0 + 10, y0 + 110, 260, 25), infiniteFuel, "  Infinite Fuel");
         if (newInf != infiniteFuel)
         {
             infiniteFuel = newInf;
             if (!infiniteFuel) cachedFuel = null;
         }
 
-        GUI.Label(new Rect(20, 150, 260, 60),
+        GUI.Label(new Rect(x0 + 10, y0 + 140, 260, 60),
             "Status:\n  Infinite fuel: " + (infiniteFuel ? "ON" : "OFF"));
     }
 
