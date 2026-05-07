@@ -136,6 +136,10 @@ public class WinSequence : MonoBehaviour
 
     void ShowWinUI()
     {
+        // Unlock cursor so the button is clickable (matches GameFlowScreens.PauseGame pattern)
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
         var canvasGO = new GameObject("WinCanvas");
         DontDestroyOnLoad(canvasGO);
 
@@ -208,8 +212,12 @@ public class WinSequence : MonoBehaviour
         btnTextRT.offsetMax = Vector2.zero;
 
         string sceneName = newGameSceneName;
+        var canvasToDestroy = canvasGO;
         btn.onClick.AddListener(() => {
             Time.timeScale = 1f;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            if (canvasToDestroy != null) Destroy(canvasToDestroy);
             SceneManager.LoadScene(sceneName);
         });
 
