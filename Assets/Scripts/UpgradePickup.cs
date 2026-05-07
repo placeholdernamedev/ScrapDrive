@@ -6,13 +6,15 @@ public class UpgradePickup : MonoBehaviour
     {
         CarHealthBoost,
         GasBoost,
-        PlayerHealthBoost
+        PlayerHealthBoost,
+        TurretBoost
     }
 
     public UpgradeType upgradeType;
     public float carHealthAmount = 40f;
     public float gasAmount = 50f;
     public float playerHealthAmount = 30f;
+    public float turretBoostDuration = 30f;
 
     private CarHealth carHealth;
     private FuelSystem fuelSystem;
@@ -27,7 +29,9 @@ public class UpgradePickup : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player"))
+        bool collectedByPlayer = other.CompareTag("Player");
+        bool collectedByCar = other.CompareTag("Car");
+        if (!collectedByPlayer && !collectedByCar)
         {
             return;
         }
@@ -57,6 +61,9 @@ public class UpgradePickup : MonoBehaviour
                 {
                     playerHealth.Heal(playerHealthAmount);
                 }
+                break;
+            case UpgradeType.TurretBoost:
+                TurretBoostRuntime.Activate(turretBoostDuration);
                 break;
         }
     }
