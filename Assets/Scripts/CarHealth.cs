@@ -86,6 +86,8 @@ public class CarHealth : MonoBehaviour, IDamageable, IHealable
             }
         }
 
+        GameOverRuntime.Show();
+
         Destroy(gameObject, 3f);
     }
 

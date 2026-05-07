@@ -45,6 +45,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     {
         isDestroyed = true;
         TotalRobotsKilled++;
+        EnemyDropSpawner.TrySpawnDrops(transform.position);
 
         Debug.Log("Enemy Destroyed");
 

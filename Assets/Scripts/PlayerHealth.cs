@@ -79,7 +79,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable
             vehicleInteraction.enabled = false;
         }
 
-        // add effects later
+        GameOverRuntime.Show();
     }
 
     public float GetHealthPercent()

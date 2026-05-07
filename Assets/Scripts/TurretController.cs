@@ -102,7 +102,23 @@ public class TurretController : MonoBehaviour
         var damageable = hit.collider.GetComponent<IDamageable>();
         if (damageable != null)
         {
-            damageable.TakeDamage(damage);
+            float appliedDamage = damage;
+            if (TurretBoostRuntime.IsActive)
+            {
+                EnemyHealth enemyHealth = hit.collider.GetComponent<EnemyHealth>();
+                if (enemyHealth == null)
+                {
+                    enemyHealth = hit.collider.GetComponentInParent<EnemyHealth>();
+                }
+
+                if (enemyHealth != null)
+                {
+                    // Guarantee robots go down in two shots while boost is active.
+                    appliedDamage = Mathf.Max(appliedDamage, enemyHealth.maxHealth * 0.5f);
+                }
+            }
+
+            damageable.TakeDamage(appliedDamage);
         }
     }
     else
