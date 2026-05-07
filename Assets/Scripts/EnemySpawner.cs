@@ -8,14 +8,12 @@ public class EnemySpawner : MonoBehaviour
     public Transform player;
     public Transform car;
 
-    public int startingSwarm1 = 3;
-    public int startingSwarm2 = 3;
-    public int swarmSize1 = 5;
-    public int swarmSize2 = 5;
-    public float spawnRadius = 10f;
-    public float spawnInterval = 5f;
+    public int swarmSize1 = 5; // melee spawns
+    public int swarmSize2 = 5; // projectile spawns
+    public float spawnRadius = 10f; // Radius around the spawner where enemies will spawn
+    public float spawnInterval = 5f; // Time interval between spawns
 
-    private float timer;
+    private float timer; // Timer to track time passed
 
 
 
