@@ -1,4 +1,4 @@
-using System.Security.Cryptography;
+
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,11 +7,14 @@ public class ProjectileEnemyAI : MonoBehaviour
 
     public Transform player;
     public Transform car;
-    public LineRenderer laserbeam;
+    
+
     public Transform firePoint;
 
     public float patrolRange = 10f;
     public float waitAtPointTime = 2f;
+
+    public LayerMask hitMask;
 
     public float detectionRange = 20f;
     public float attackRange = 15f;
@@ -20,35 +23,28 @@ public class ProjectileEnemyAI : MonoBehaviour
 
     public float laserbeamduration = 0.5f;
 
+    public AudioSource gunAudioSource;
+    public AudioClip gunSound;
+
     private Animator animator;
     private NavMeshAgent agent;
     private Vector3 patrolCenter;
     private float waitTime;
     private float attackTimer;
+    private Transform currentTarget;
+    private VehicleInteraction vi;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+       
         patrolCenter = transform.position;
 
-        if (player == null)
+        if (car != null)
         {
-            GameObject foundPlayer = GameObject.FindGameObjectWithTag("Player");
-
-            if (foundPlayer != null)
-                player = foundPlayer.transform;
-        }
-
-        if (car == null && player != null)
-        {
-            car = player;
-        }
-
-        if (laserbeam != null)
-        {
-            laserbeam.enabled = false;
+            vi = car.GetComponent<VehicleInteraction>();
         }
 
         PickNewPatrolPoint();
@@ -57,11 +53,20 @@ public class ProjectileEnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (car == null) return;
+        if (player == null && car == null) return;
 
-        float distanceToCar = Vector3.Distance(transform.position, car.position);
+        if (vi != null && vi.InVehicle && car != null)
+        {
+            currentTarget = car;
+        }
+        else
+        {
+            currentTarget = player;
+        }
 
-        if (distanceToCar <= detectionRange)
+        float distanceToTarget = Vector3.Distance(transform.position, currentTarget.position);
+
+        if (distanceToTarget <= detectionRange)
         {
             StopAndAttack();
         }
@@ -76,7 +81,6 @@ public class ProjectileEnemyAI : MonoBehaviour
         agent.isStopped = false;
 
         animator.SetFloat("Speed", agent.velocity.magnitude);
-        animator.SetBool("IsAttacking", false);
 
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
@@ -103,12 +107,13 @@ public class ProjectileEnemyAI : MonoBehaviour
 
     void StopAndAttack()
     {
+        if (currentTarget == null) return;
+
         agent.isStopped = true;
 
         animator.SetFloat("Speed", 0);
-        animator.SetBool("IsAttacking", true);
 
-        Vector3 lookDirection = car.position - transform.position;
+        Vector3 lookDirection = currentTarget.position - transform.position;
         lookDirection.y = 0f;
 
         if (lookDirection != Vector3.zero)
@@ -121,46 +126,64 @@ public class ProjectileEnemyAI : MonoBehaviour
 
         if (attackTimer >= attackCoolDown)
         {
-            FireLaser();
+            animator.SetTrigger("Attack");
             attackTimer = 0f;
         }
     }
 
     void FireLaser()
     {
-        Vector3 origin = firePoint.position;
-        Vector3 target = car.position + Vector3.up * 1f;
-        Vector3 direction = (target - origin).normalized;
+        if (firePoint == null || currentTarget == null) return;
 
-        Vector3 laserEndPoint = origin + direction * attackRange;
+        Vector3 targetPoint = currentTarget.position + Vector3.up * 1f;
+        Vector3 direction = (targetPoint - firePoint.position).normalized;
 
-        if (Physics.Raycast(origin, direction, out RaycastHit hit, attackRange))
+        Ray ray = new Ray(firePoint.position, direction);
+        RaycastHit hit;
+
+        Vector3 endPoint;
+
+        if (Physics.Raycast(ray, out hit, attackRange, hitMask))
         {
-            laserEndPoint = hit.point;
+            endPoint = hit.point;
 
-            if (hit.collider.CompareTag("Player"))
+            IDamageable damageable = hit.collider.GetComponentInParent<IDamageable>();
+            if (damageable != null)
             {
-                UnityEngine.Debug.Log("Laser hit player for " + damage + " damage");
-
-                // Add your player/car health script here later:
-                // hit.collider.GetComponent<PlayerHealth>()?.TakeDamage(damage);
+                damageable.TakeDamage(damage);
             }
+
+                UnityEngine.Debug.Log("Laser hit " + hit.collider.name + " for " + damage + " damage");
         }
-
-        laserbeam.enabled = true;
-        laserbeam.SetPosition(0, origin);
-        laserbeam.SetPosition(1, laserEndPoint);
-
-        CancelInvoke(nameof(HideLaser));
-        Invoke(nameof(HideLaser), laserbeamduration);
-    }
-
-    void HideLaser()
-    {
-        if (laserbeam != null)
+        else
         {
-            laserbeam.enabled = false;
+            endPoint = firePoint.position + direction * attackRange;
         }
+        gunAudioSource.PlayOneShot(gunSound); 
+
+        StartCoroutine(DrawLaser(firePoint.position, endPoint));
     }
 
+    System.Collections.IEnumerator DrawLaser(Vector3 start, Vector3 end)
+    {
+        GameObject lineObj = new GameObject("ShotLine");
+        LineRenderer lr = lineObj.AddComponent<LineRenderer>();
+
+        lr.startWidth = 0.05f;
+        lr.endWidth = 0.05f;
+        lr.positionCount = 2;
+        lr.SetPosition(0, start);
+        lr.SetPosition(1, end);
+
+        // creates a material for the line
+        lr.material = new Material(Shader.Find("Sprites/Default"));
+
+        // set color to red
+        lr.startColor = Color.red;
+        lr.endColor = Color.red;
+
+        yield return new WaitForSeconds(laserbeamduration);
+
+        Destroy(lineObj);
+    }
 }
