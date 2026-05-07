@@ -40,20 +40,23 @@ public class DevMenu : MonoBehaviour
 
         var prevColor = GUI.backgroundColor;
         GUI.backgroundColor = new Color(0f, 0f, 0f, 0.85f);
-        GUI.Box(new Rect(10, 10, 280, 175), "DEV MENU  (P to close)");
+        GUI.Box(new Rect(10, 10, 280, 215), "DEV MENU  (P to close)");
         GUI.backgroundColor = prevColor;
 
         if (GUI.Button(new Rect(20, 45, 260, 30), "Next Level"))
             GoToNextLevel();
 
-        bool newInf = GUI.Toggle(new Rect(20, 85, 260, 25), infiniteFuel, "  Infinite Fuel");
+        if (GUI.Button(new Rect(20, 80, 260, 30), "Teleport to End"))
+            TeleportToEnd();
+
+        bool newInf = GUI.Toggle(new Rect(20, 120, 260, 25), infiniteFuel, "  Infinite Fuel");
         if (newInf != infiniteFuel)
         {
             infiniteFuel = newInf;
             if (!infiniteFuel) cachedFuel = null;
         }
 
-        GUI.Label(new Rect(20, 115, 260, 60),
+        GUI.Label(new Rect(20, 150, 260, 60),
             "Status:\n  Infinite fuel: " + (infiniteFuel ? "ON" : "OFF"));
     }
 
@@ -67,5 +70,58 @@ public class DevMenu : MonoBehaviour
         }
         Debug.Log("[DevMenu] Loading " + trigger.nextSceneName);
         SceneManager.LoadScene(trigger.nextSceneName);
+    }
+
+    void TeleportToEnd()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        Vector3 playerPos, carPos;
+
+        if (sceneName == "Level1")
+        {
+            playerPos = new Vector3(285f, 1f, 1465f);
+            carPos = new Vector3(290f, 1f, 1465f);
+        }
+        else if (sceneName == "Level2")
+        {
+            playerPos = new Vector3(-5f, 1f, 945f);
+            carPos = new Vector3(0f, 1f, 945f);
+        }
+        else if (sceneName == "Level3")
+        {
+            playerPos = new Vector3(-5f, 1f, 1790f);
+            carPos = new Vector3(0f, 1f, 1790f);
+        }
+        else
+        {
+            Debug.LogWarning("[DevMenu] No teleport defined for scene: " + sceneName);
+            return;
+        }
+
+        var player = GameObject.Find("Player");
+        var car = GameObject.Find("Car With Turret");
+
+        if (car != null)
+        {
+            var carRb = car.GetComponent<Rigidbody>();
+            if (carRb != null)
+            {
+                carRb.linearVelocity = Vector3.zero;
+                carRb.angularVelocity = Vector3.zero;
+            }
+            car.transform.position = carPos;
+            car.transform.rotation = Quaternion.identity;
+        }
+
+        if (player != null)
+        {
+            var charCtl = player.GetComponent<CharacterController>();
+            if (charCtl != null) charCtl.enabled = false;
+            player.transform.position = playerPos;
+            player.transform.rotation = Quaternion.identity;
+            if (charCtl != null) charCtl.enabled = true;
+        }
+
+        Debug.Log("[DevMenu] Teleported to end of " + sceneName);
     }
 }

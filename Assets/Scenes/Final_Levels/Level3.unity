@@ -7070,6 +7070,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.26963913, y: 0.09059771, z: 0.15315905}
   m_Center: {x: -1.4210855e-17, y: 0.038998794, z: -0.0020841064}
+--- !u!4 &229074603 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a52f8a13c9250204eabec245ca01f6f3, type: 3}
+  m_PrefabInstance: {fileID: 229074600}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &231927490
 GameObject:
   m_ObjectHideFlags: 0
@@ -62019,6 +62024,79 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5063014372345377526, guid: d148797bf8967234ab6305f3fb0bb225, type: 3}
   m_PrefabInstance: {fileID: 1838547239}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1839815622
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1839815625}
+  - component: {fileID: 1839815624}
+  - component: {fileID: 1839815623}
+  m_Layer: 0
+  m_Name: WinTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1839815623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839815622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43921983f082bb64d8373fa06232e269, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WinSequence
+  dataCenter: {fileID: 229074603}
+  newGameSceneName: Level1
+  zoomOutDistance: 350
+  zoomOutHeight: 180
+  zoomDuration: 3.5
+  explosionDuration: 6
+  fadeInDuration: 1.5
+--- !u!65 &1839815624
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839815622}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 280, y: 60, z: 50}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &1839815625
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839815622}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 30, z: 1816}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1840359046
 GameObject:
   m_ObjectHideFlags: 0
@@ -72648,3 +72726,4 @@ SceneRoots:
   - {fileID: 299257267}
   - {fileID: 229074600}
   - {fileID: 1395023006}
+  - {fileID: 1839815625}
