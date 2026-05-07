@@ -45,11 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   enemyPrefab1: {fileID: 0}
-  enemyPrefab2: {fileID: 0}
+  enemyPrefab2: {fileID: 3713036873682500111, guid: d4167088415ddcf49afaf847d2f68d5e, type: 3}
   player: {fileID: 0}
   car: {fileID: 0}
-  startingSwarm1: 3
-  startingSwarm2: 3
   swarmSize1: 0
   swarmSize2: 2
   spawnRadius: 8
