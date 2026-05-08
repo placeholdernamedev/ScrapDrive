@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Zak_Dev.unity
     guid: 19d89b9e884977546b456ec45b1a6db4
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Playtest/PlaytestLevel.unity
     guid: 0d0225dc8d496e644910d1f4cc120527
   - enabled: 1
