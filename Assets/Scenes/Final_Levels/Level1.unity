@@ -6071,6 +6071,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 258669076}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!82 &260064708 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1830611862324185487, guid: f7f5741b8d4539a43bc23fed7067e56b, type: 3}
+  m_PrefabInstance: {fileID: 1333902846}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &264538632
 GameObject:
   m_ObjectHideFlags: 0
@@ -31891,10 +31896,30 @@ PrefabInstance:
       propertyPath: NFacceleration
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 1609090454231413112, guid: f7f5741b8d4539a43bc23fed7067e56b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1609090454231413112, guid: f7f5741b8d4539a43bc23fed7067e56b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1609090454231413112, guid: f7f5741b8d4539a43bc23fed7067e56b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2370353801825947945, guid: f7f5741b8d4539a43bc23fed7067e56b, type: 3}
       propertyPath: m_Name
       value: Car With Turret
       objectReference: {fileID: 0}
+    - target: {fileID: 4671310744081683351, guid: f7f5741b8d4539a43bc23fed7067e56b, type: 3}
+      propertyPath: damageAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 75f0fafc646f5634d968719c6500cfbd, type: 3}
+    - target: {fileID: 4671310744081683351, guid: f7f5741b8d4539a43bc23fed7067e56b, type: 3}
+      propertyPath: audioDamageSource
+      value: 
+      objectReference: {fileID: 260064708}
     - target: {fileID: 4978540944959774407, guid: f7f5741b8d4539a43bc23fed7067e56b, type: 3}
       propertyPath: crosshairUI
       value: 

@@ -30,10 +30,13 @@ public class PlayerMovement : MonoBehaviour
         {
             ResolveCameraTransform();
         }
-
-        MovePlayer();
-        ApplyGravity();
-        UpdateAnimation();
+        if (controller == null || !controller.enabled || !gameObject.activeInHierarchy)
+            return;
+        else{
+            MovePlayer();
+            ApplyGravity();
+            UpdateAnimation();
+        }
     }
 
     void ResolveCameraTransform()

@@ -81,7 +81,7 @@ public class TurretController : MonoBehaviour
         Vector3 localTarget = pivot.InverseTransformPoint(targetPoint);
 
         float angle = Mathf.Atan2(localTarget.y, localTarget.z) * Mathf.Rad2Deg;
-        angle = Mathf.Clamp(angle, minPitch, maxPitch);
+        angle = Mathf.Clamp(-angle, minPitch, maxPitch);
 
         barrel.localRotation = Quaternion.Euler(angle, 0f, 0f);
     }
